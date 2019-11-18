@@ -2,6 +2,7 @@ import pandas as pd # offers data structures and operations for manipulating num
 import numpy as np # array-processing package
 import nltk #Natural Language toolkit
 import ssl
+import json
 
 import nltk.data
 from nltk.tokenize import word_tokenize
@@ -26,11 +27,30 @@ sentence = sent_tokenize(P1_text)
 
 #// REMOVE PUNCTUATION
 def remove_punctuation(sentence):
-    sentence = re.sub(r'[^\w\s]','',sentence)
+    sentence = re.sub(r'[^\w\s\n\"]','',sentence)
     return sentence
 cleaned_sent = [remove_punctuation(sentence) for sentence in sentence]
 partial_speech = cleaned_sent[1:15]
-print(partial_speech)
+
+df_1 = pd.DataFrame(cleaned_sent, columns = ['Sentences'])
+print(df_1)
+
+df_1.to_json(r'/Users/NicoBrand/Documents/Projekts/tsne_2/json/P1_Sentences.json', orient='columns')
+
+
+# y = json.dumps(partial_speech)
+# print(y)
+
+#Get the file name for the new file to write
+# filter = "JSON File (*.json)|*.json|All Files (*.*)|*.*||"
+# filename = rs.SaveFileName("P1_Sentences", filter)
+#
+# # If the file name exists, write a JSON string into the file.
+# if filename:
+#     # Writing JSON data
+#     with open(filename, 'w') as f:
+#         json.dump(partial_speech, f)
+
 
 #// TOKENIZE SENTENCES
 partial_speech_words = [word_tokenize(sentence) for sentence in partial_speech]
@@ -147,7 +167,7 @@ print(df)
 #df.to_json(r'/Users/NicoBrand/Documents/Projekts/tsne_1/json/vector_split.json', orient='split')
 #df.to_json(r'/Users/NicoBrand/Documents/Projekts/tsne_1/json/vector_index.json', orient='index')
 #df.to_json(r'/Users/NicoBrand/Documents/Projekts/tsne_1/json/vector_records.json', orient='records')
-df.to_json(r'/Users/NicoBrand/Documents/Projekts/tsne_1/json/vector_colums.json', orient='columns')
+df.to_json(r'/Users/NicoBrand/Documents/Projekts/tsne_2/json/vector_colums.json', orient='columns')
 
 
 # # get the first vector out (for the first document)
